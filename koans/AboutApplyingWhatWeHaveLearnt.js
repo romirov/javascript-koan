@@ -71,18 +71,17 @@ describe("About Applying What We Have Learnt", function() {
 
     /* try chaining range() and reduce() */
     const range = (start, end) => {
-      var ans = [];
-      for (let i = start; i <= end; i++) {
-          ans.push(i);
-      }
-      return ans;
+      return Array.from({ length: end - start + 1 }, (_, i) => i);
   }
-    var sum = range(1, 1000).reduce(function (sum, x) { 
+  
+  var summary = range(1, 1000).reduce(function (sum, x) { 
       if(x % 3 === 0 || x % 5 === 0) 
-        sum += x 
-    }).value();    
+          return sum += x;
+          
+      return sum;
+  }); 
 
-    expect(233168).toBe(sum);
+    expect(233168).toBe(summary);
   });
 
   /*********************************************************************************/
@@ -95,15 +94,29 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
+    products.unshift({})
+    _(products).chain()
+    .flatten()
+    .map(function(x) { return x.ingredients })
+    .reduce(function(sum, ingredientsArray) { 
+      console.log(ingredientsArray)
+      for(let i in ingredientsArray){
+        let item = ingredientsArray[i];
+        ingredientCount[item] = (ingredientCount[item] || 0) + 1; 
+    }
+      
+      
+      return ingredientCount
+    }).value();
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
